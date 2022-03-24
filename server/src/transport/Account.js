@@ -10,4 +10,14 @@ module.exports = {
       next(e);
     }
   },
+
+  async createClient(req, res, next) {
+    const data = req.body;
+    try {
+      const response = await accountService.createAccount(data, data.type);
+      res.status(201).json(response);
+    } catch (e) {
+      next(e);
+    }
+  },
 };

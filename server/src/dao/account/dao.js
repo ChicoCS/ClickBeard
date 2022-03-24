@@ -14,6 +14,17 @@ module.exports = {
     return response;
   },
 
+  async getAccountByEmail(email) {
+    const response = await connection.query(sql.getAccountByEmail, {
+      type: connection.QueryTypes.SELECT,
+      plain: true,
+      replacements: {
+        email: email
+      },
+    });
+    return response;
+  },
+
   async getAccountByUID(uid) {
     const response = await connection.query(sql.getAccountByUID, {
       type: connection.QueryTypes.SELECT,

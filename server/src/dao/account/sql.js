@@ -12,6 +12,12 @@ module.exports = {
     FROM users us
     WHERE 
     us.uid = :uid`,
+  
+  getAccountByEmail: `
+    SELECT * 
+    FROM users us
+    WHERE 
+    us.email = :email`,
 
   checkLoginAccount: `
     SELECT TRUE
