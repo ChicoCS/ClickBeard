@@ -1,4 +1,5 @@
 import { action, makeObservable, observable, computed } from "mobx";
+import validator from "validator";
 import Login from "../../../services/Login";
 
 class LoginStore {
@@ -12,7 +13,9 @@ class LoginStore {
     name: "",
     password: "",
     email: "",
-  }
+  };
+
+  loggedUser = {};
 
   fetching = false;
 
@@ -20,6 +23,12 @@ class LoginStore {
     this.user = {
       login: "",
       password: "",
+    };
+    this.createAccountData = {
+      login: "",
+      name: "",
+      password: "",
+      email: "",
     };
   }
 
@@ -33,26 +42,30 @@ class LoginStore {
     this.createAccountData[name] = value;
   }
 
-  validateUser(data) {
-    return data.login === "" ? false : data.password === "" ? false : true;
+  validateLogin(data) {
+    return validator.isEmpty(data.login)
+      ? false
+      : validator.isEmpty(data.login)
+      ? false
+      : true;
   }
 
   async makeLogin(navigate) {
     try {
       this.fetching = true;
 
-      const validateUser = this.validateUser(this.user);
-
+      const validateUser = this.validateLogin(this.user);
       if (validateUser) {
-        // const response = await Login.MakeLogin(this.user);
-
-        // if (response.error) {
-        //   alert(`${response.error}`);
-        // }
-
-        // if (response.data) {
-        //   navigate("/main");
-        // }
+        const response = await Login.MakeLogin(this.user);
+        if (response.error) {
+          alert(`${response.error}`);
+        }
+        if (response.data.type === 1) {
+          navigate("/adm");
+        }
+        if (response.data.type === 2) {
+          navigate("/client");
+        }
       }
 
       if (!validateUser) {
@@ -69,7 +82,7 @@ class LoginStore {
       fetching: observable,
       reset: action.bound,
       makeLogin: action.bound,
-      validateUser: action.bound,
+      validateLogin: action.bound,
       handleChangeLogin: action.bound,
       handleChangeCreateAccount: action.bound,
     });

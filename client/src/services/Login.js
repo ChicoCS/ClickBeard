@@ -9,7 +9,7 @@ const Login = {
         response.data = res.data
       })
       .catch((error) => {
-        response.error = error.response.data.error
+        response.error = error.response.data
       });
     return response;
   },
