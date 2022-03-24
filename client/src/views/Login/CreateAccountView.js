@@ -20,7 +20,8 @@ function CreateAccountView(props) {
 
   let navigate = useNavigate();
 
-  const createAccount = async () => {
+  const createAccount = () => {
+    loginStore.createAccount(navigate);
   };
 
   const backToLogin = async () => {
@@ -111,7 +112,7 @@ function CreateAccountView(props) {
                 <TextField
                   required
                   fullWidth
-                  name="password_confirmation"
+                  name="password_confirm"
                   size="small"
                   variant="standard"
                   type="password"

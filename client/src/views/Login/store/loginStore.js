@@ -1,6 +1,6 @@
-import { action, makeObservable, observable, computed } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import validator from "validator";
-import Login from "../../../services/Login";
+import Account from "../../../services/Account";
 
 class LoginStore {
   user = {
@@ -12,7 +12,9 @@ class LoginStore {
     login: "",
     name: "",
     password: "",
+    password_confirm: "",
     email: "",
+    type: "",
   };
 
   loggedUser = {};
@@ -28,7 +30,9 @@ class LoginStore {
       login: "",
       name: "",
       password: "",
+      password_confirm: "",
       email: "",
+      type: "",
     };
   }
 
@@ -50,25 +54,66 @@ class LoginStore {
       : true;
   }
 
+  validateCreateAccountData(data) {
+    if (
+      validator.isEmpty(data.name) ||
+      validator.isEmpty(data.login) ||
+      !validator.isEmail(data.email) ||
+      data.password !== data.password_confirm
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   async makeLogin(navigate) {
     try {
       this.fetching = true;
 
       const validateUser = this.validateLogin(this.user);
       if (validateUser) {
-        const response = await Login.MakeLogin(this.user);
+        const response = await Account.makeLogin(this.user);
+
+        console.warn("RESPONSE", response);
+
         if (response.error) {
           alert(`${response.error}`);
         }
-        if (response.data.type === 1) {
-          navigate("/adm");
-        }
-        if (response.data.type === 2) {
-          navigate("/client");
+        if (response.data) {
+          response.data.type === 1 ? navigate("/adm") : navigate("/client");
         }
       }
 
       if (!validateUser) {
+        alert("Verifique se os campos foram preenchidos corretamente.");
+      }
+    } finally {
+      this.fetching = false;
+    }
+  }
+
+  async createAccount(navigate) {
+    try {
+      this.fetching = true;
+
+      const validateData = this.validateCreateAccountData(
+        this.createAccountData
+      );
+
+      this.createAccountData.type = 2;
+      if (validateData) {
+        const response = await Account.createClientAccount(this.createAccountData);
+        if (response.error) {
+          alert(`${response.error}`);
+        }
+        if (validator.isEmpty(response.data)) {
+          alert("Conta criada com Sucesso!");
+          navigate("/");
+        }
+      }
+
+      if (!validateData) {
         alert("Verifique se os campos foram preenchidos corretamente.");
       }
     } finally {
@@ -82,7 +127,9 @@ class LoginStore {
       fetching: observable,
       reset: action.bound,
       makeLogin: action.bound,
+      createAccount: action.bound,
       validateLogin: action.bound,
+      validateCreateAccountData: action.bound,
       handleChangeLogin: action.bound,
       handleChangeCreateAccount: action.bound,
     });
