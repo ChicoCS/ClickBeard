@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: db_mysql_click_beard
+    restart: always
+    environment:
+      - MYSQL_DATABASE=clickbeard
+      - MYSQL_ROOT_PASSWORD=mysql007
+      - allowPublicKeyRetrieval=true
+      - useSSL=false
+    volumes:
+      - .docker/db_mysql_click_beard:/var/lib/mysql
+    ports:
+      - 5432:3306
+
+volumes:
+  db-volume:
