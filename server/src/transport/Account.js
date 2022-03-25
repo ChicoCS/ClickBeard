@@ -11,7 +11,7 @@ module.exports = {
     }
   },
 
-  async createClient(req, res, next) {
+  async createAccount(req, res, next) {
     const data = req.body;
     try {
       const response = await accountService.createAccount(data, data.type);

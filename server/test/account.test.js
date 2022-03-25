@@ -6,7 +6,7 @@ const request = function (url, method, data) {
   return axios({ url, method, data, validateStatus: false });
 };
 
-test("Should get a login account - Case Success", async function () {
+test("Should get a login account - Case Success", async () => {
   const data = {
     name: "Tester",
     login: "test",
@@ -30,7 +30,7 @@ test("Should get a login account - Case Success", async function () {
   await accountService.deleteAccount(get.uid);
 });
 
-test("Should create account - Case Success", async function () {
+test("Should create account - Case Success", async () => {
   const data = {
     name: "Tester",
     login: "test",

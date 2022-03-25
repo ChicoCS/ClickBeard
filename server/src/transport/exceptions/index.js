@@ -5,7 +5,15 @@ module.exports = {
     "Falha ao cadastrar conta. Essa conta ja existe.",
     "Falha ao cadastrar conta. Login ja existe.",
     "Falha ao cadastrar conta. Email ja existe.",
+    "Barbeiro ja cadastrado."
+  ],
+  status409Exceptions: [
     "Houve um erro ao cadastrar conta.",
+    "Houve um erro ao remover conta.",
+    "Falha ao obter tipos de especialidades.",
+    "Falha ao obter barbeiro.",
+    "Falha ao obter especialidades do barbeiro.",
+    "Falha ao adicionar especialidades.",
     "Houve um erro ao remover conta."
   ],
 };
