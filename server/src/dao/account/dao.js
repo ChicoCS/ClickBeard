@@ -74,6 +74,18 @@ module.exports = {
     return response;
   },
 
+  async getUserDataByUID(uid, type) {
+    const response = await connection.query(sql.getUserDataByUID, {
+      type: connection.QueryTypes.SELECT,
+      plain: true,
+      replacements: {
+        uid: uid,
+        type: type,
+      },
+    });
+    return response;
+  },
+
   async deleteAccount(uid) {
     return await connection.query(sql.deleteAccount, {
       type: connection.QueryTypes.DELETE,

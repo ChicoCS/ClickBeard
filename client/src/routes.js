@@ -13,8 +13,8 @@ export default () => {
       <Routes>
         <Route element={<LoginView />} path="/" />
         <Route element={<CreateAccountView />} path="/createAccount" />
-        <Route element={<MainAdmView />} path="/adm" />
-        <Route element={<MainClientView />} path="/client" />
+        <Route element={<MainAdmView />} path="/adm/:id" />
+        <Route element={<MainClientView />} path="/client/:id" />
         <Route element={<RegisterBarberView />} path="/barber/register" />
       </Routes>
     </BrowserRouter>

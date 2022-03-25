@@ -37,6 +37,17 @@ module.exports = {
     }
   },
 
+  async getUserDataByUID(uid, type) {
+    const account = await accountDAO.getUserDataByUID(uid, type);
+    if (!account) {
+      throw new Error(
+        "Houve um erro ao obter dados do usuário."
+      );
+    }
+
+    return account;
+  },
+
   async deleteAccount(uid) {
     await accountDAO.deleteAccount(uid);
 

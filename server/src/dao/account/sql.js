@@ -26,6 +26,15 @@ module.exports = {
     us.login = :login
   `,
 
+  getUserDataByUID: `
+    SELECT us.uid, us.name, us.email, us.type
+    FROM users us
+    WHERE 
+    us.uid = :uid
+    AND
+    us.type = :type
+  `,
+
   checkAccountExists: `
     SELECT us.login, us.email 
     FROM users us

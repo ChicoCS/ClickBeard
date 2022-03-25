@@ -14,6 +14,7 @@ module.exports = {
     "Falha ao obter barbeiro.",
     "Falha ao obter especialidades do barbeiro.",
     "Falha ao adicionar especialidades.",
-    "Houve um erro ao remover conta."
+    "Houve um erro ao remover conta.",
+    "Houve um erro ao obter dados do usuário."
   ],
 };

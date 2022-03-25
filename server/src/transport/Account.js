@@ -20,4 +20,13 @@ module.exports = {
       next(e);
     }
   },
+
+  async getUserDataByUID(req, res, next) {
+    try {
+      const response = await accountService.getUserDataByUID(req.params.id, req.query.type);
+      res.status(200).json(response);
+    } catch (e) {
+      next(e);
+    }
+  },
 };

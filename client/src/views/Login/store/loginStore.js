@@ -17,7 +17,7 @@ class LoginStore {
     type: "",
   };
 
-  loggedUser = {};
+  loggedUser = null;
 
   fetching = false;
 
@@ -34,6 +34,7 @@ class LoginStore {
       email: "",
       type: "",
     };
+    this.loggedUser = null;
   }
 
   handleChangeLogin(target) {
@@ -75,13 +76,13 @@ class LoginStore {
       if (validateUser) {
         const response = await Account.makeLogin(this.user);
 
-        console.warn("RESPONSE", response);
-
         if (response.error) {
           alert(`${response.error}`);
         }
         if (response.data) {
-          response.data.type === 1 ? navigate("/adm") : navigate("/client");
+          response.data.type === 1
+            ? navigate(`/adm/${response.data.uid}`)
+            : navigate(`/client/${response.data.uid}`);
         }
       }
 
@@ -103,7 +104,9 @@ class LoginStore {
 
       this.createAccountData.type = 2;
       if (validateData) {
-        const response = await Account.createClientAccount(this.createAccountData);
+        const response = await Account.createClientAccount(
+          this.createAccountData
+        );
         if (response.error) {
           alert(`${response.error}`);
         }
@@ -121,6 +124,38 @@ class LoginStore {
     }
   }
 
+  async getClientData(id, navigation) {
+    try {
+      this.fetching = true;
+
+      const response = await Account.getUserDataByID(id, 2);
+      if (response.error) {
+        alert(`${response.error}`);
+        navigation("/");
+      }
+
+      this.loggedUser = response.data;
+    } finally {
+      this.fetching = false;
+    }
+  }
+
+  async getAdminData(id, navigation) {
+    try {
+      this.fetching = true;
+
+      const response = await Account.getUserDataByID(id, 1);
+      if (response.error) {
+        alert(`${response.error}`);
+        navigation("/");
+      }
+
+      this.loggedUser = response.data;
+    } finally {
+      this.fetching = false;
+    }
+  }
+
   constructor() {
     makeObservable(this, {
       user: observable,
@@ -132,6 +167,8 @@ class LoginStore {
       validateCreateAccountData: action.bound,
       handleChangeLogin: action.bound,
       handleChangeCreateAccount: action.bound,
+      getClientData: action.bound,
+      getAdminData: action.bound,
     });
   }
 }
