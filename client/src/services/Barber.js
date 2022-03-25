@@ -1,10 +1,10 @@
 import api from "./api";
 
-const Account = {
-  makeLogin: async (data) => {
+const Barber = {
+    getBarberSpecialties: async () => {
     let response = {}
     await api
-      .post(`/login`, data)
+      .get(`/barbers/specialties`)
       .then((res) => {
         response.data = res.data
       })
@@ -14,18 +14,18 @@ const Account = {
     return response;
   },
 
-  createClientAccount: async (data) => {
+  registerBarber: async (data) => {
     let response = {}
     await api
-      .post(`/accounts/client`, data)
+      .post(`/barbers`, data)
       .then((res) => {
         response.data = res.data
       })
       .catch((res) => {
         response.error = res.response.data
-      })
+      });
     return response;
-  }
-};
+  },
+}
 
-export default Account;
+export default Barber;
