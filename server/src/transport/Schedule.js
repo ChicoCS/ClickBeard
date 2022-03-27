@@ -13,7 +13,7 @@ module.exports = {
 
   async getSchedules(req, res, next) {
     try {
-      const response = await scheduleService.getSchedules();
+      const response = await scheduleService.getSchedules(req.query.date);
       res.status(200).json(response);
     } catch (e) {
       next(e);
@@ -22,7 +22,7 @@ module.exports = {
 
   async getSchedulesByClient(req, res, next) {
     try {
-      const response = await scheduleService.getSchedulesByClient(req.params.client_id);
+      const response = await scheduleService.getSchedulesByClient(req.params.client_id, req.query.date);
       res.status(200).json(response);
     } catch (e) {
       next(e);

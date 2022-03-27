@@ -14,10 +14,10 @@ const Schedule = {
     return response;
   },
 
-  getSchedulesByClient: async (clientID) => {
+  getSchedulesByClient: async (clientID, date) => {
     let response = {};
     await api
-      .get(`/schedules/${clientID}`)
+      .get(`/schedules/${clientID}`, { params: { date: date } })
       .then((res) => {
         response.data = res.data;
       })
@@ -27,10 +27,10 @@ const Schedule = {
     return response;
   },
 
-  getSchedules: async () => {
+  getSchedules: async (date) => {
     let response = {};
     await api
-      .get(`/schedules`)
+      .get(`/schedules`, { params: { date: date } })
       .then((res) => {
         response.data = res.data;
       })

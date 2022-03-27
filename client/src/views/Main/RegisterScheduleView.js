@@ -14,6 +14,8 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
+import format from "date-fns/format";
+
 RegisterScheduleView.propTypes = {
   barberStore: PropTypes.object.isRequired,
   scheduleStore: PropTypes.object.isRequired,
@@ -24,6 +26,8 @@ function RegisterScheduleView(props) {
   const { client } = useParams();
 
   let navigate = useNavigate();
+
+  const minDateToSchedule = format(new Date(), "yyyy-MM-dd")
 
   const registerSchedule = () => {
     scheduleStore.registerSchedule(navigate, client);
@@ -66,7 +70,7 @@ function RegisterScheduleView(props) {
                   onChange={({ target }) =>
                     scheduleStore.handleChangeRegisterSchedule(target)
                   }
-                  InputProps={{ inputProps: { min: "2020-05-01" } }}
+                  InputProps={{ inputProps: { min: minDateToSchedule } }}
                 />
               </Grid>
               <Grid item xs={12} sx={{ marginTop: 1.5 }}>

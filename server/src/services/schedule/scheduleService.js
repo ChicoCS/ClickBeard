@@ -27,19 +27,31 @@ module.exports = {
     }
   },
 
-  async getSchedulesByClient(clientUID) {
+  async getSchedulesByClient(clientUID, date) {
     const schedules = await scheduleDAO.getSchedulesByClientUID(clientUID);
     if (!schedules) {
       throw new Error("Falha ao obter lista de agendamentos.");
     }
 
+    if(date !== ""){
+      const filteredSchedules = await schedules.filter((schedule) => schedule.date === date)
+      
+      return filteredSchedules
+    }
+
     return schedules;
   },
 
-  async getSchedules() {
+  async getSchedules(date) {
     const schedules = await scheduleDAO.getSchedules();
     if (!schedules) {
       throw new Error("Falha ao obter lista de agendamentos.");
+    }
+
+    if(date !== ""){
+      const filteredSchedules = await schedules.filter((schedule) => schedule.date === date)
+      
+      return filteredSchedules
     }
 
     return schedules;

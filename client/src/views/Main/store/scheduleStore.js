@@ -3,6 +3,8 @@ import validator from "validator";
 import Barber from "../../../services/Barber";
 import Schedule from "../../../services/Schedule";
 
+import format from "date-fns/format";
+
 class ScheduleStore {
   fetching = false;
 
@@ -25,6 +27,10 @@ class ScheduleStore {
 
   schedules = [];
 
+  filter = {
+    date: "",
+  };
+
   resetRegisterSchedule() {
     this.schedule = {
       specialty: "",
@@ -36,10 +42,22 @@ class ScheduleStore {
     this.availableSchedules = [];
   }
 
+  resetFilter(){
+    this.filter = {
+      date: "",
+    };
+  }
+
   handleChangeRegisterSchedule(target) {
     this.resetRegisterSchedule();
     const { name, value } = target;
     this.schedule[name] = value;
+  }
+
+  handleChangeFilterSchedules(target) {
+    this.resetFilter()
+    const { name, value } = target;
+    this.filter[name] = value;
   }
 
   async handleChangeChipRegisterSchedule(row, target) {
@@ -82,11 +100,17 @@ class ScheduleStore {
     try {
       this.fetching = true;
 
+      // const minTimeToSchedule = format(new Date(), "HH:mm")
+      // const minDateToSchedule = format(new Date(), "yyyy-MM-dd")
+
+      // console.warn("minTimeToSchedule", minTimeToSchedule)
+
       if (validator.isDate(this.schedule.date)) {
         const response = await Barber.getSchedulesBarberByBarber(
           this.schedule.barber,
           this.schedule.date
         );
+
         this.availableSchedules = response.data;
       }
 
@@ -145,9 +169,10 @@ class ScheduleStore {
     try {
       this.fetching = true;
 
-      const response = await Schedule.getSchedulesByClient(clientID);
+      const response = await Schedule.getSchedulesByClient(clientID, this.filter.date);
 
       this.clientSchedules = response.data;
+      this.resetFilter();
     } finally {
       this.fetching = false;
     }
@@ -157,9 +182,10 @@ class ScheduleStore {
     try {
       this.fetching = true;
 
-      const response = await Schedule.getSchedules();
+      const response = await Schedule.getSchedules(this.filter.date);
 
       this.schedules = response.data;
+      this.resetFilter();
     } finally {
       this.fetching = false;
     }
@@ -174,9 +200,12 @@ class ScheduleStore {
       availableSchedules: observable,
       schedules: observable,
       clientSchedules: observable,
+      filter: observable,
       resetRegisterSchedule: action.bound,
+      resetFilter: action.bound,
       handleChangeRegisterSchedule: action.bound,
       handleChangeChipRegisterSchedule: action.bound,
+      handleChangeFilterSchedules: action.bound,
       filterBarbersBySpecialty: action.bound,
       filterAvailableSchedulesBarber: action.bound,
       registerSchedule: action.bound,

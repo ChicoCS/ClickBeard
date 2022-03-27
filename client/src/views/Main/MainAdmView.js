@@ -7,6 +7,9 @@ import { withStore } from "../../stores/context";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 
+import SchedulesTable from "./components/SchedulesTable";
+import SchedulesFilter from "./components/SchedulesFilter";
+
 MainAdmView.propTypes = {
   loginStore: PropTypes.object.isRequired,
   scheduleStore: PropTypes.object.isRequired,
@@ -17,10 +20,6 @@ function MainAdmView(props) {
   const { id } = useParams();
   let navigate = useNavigate();
 
-  const registerBarber = () => {
-    navigate(`/${id}/barber/register`);
-  };
-
   const logOut = () => {
     loginStore.reset();
     navigate(`/`);
@@ -28,21 +27,13 @@ function MainAdmView(props) {
 
   useEffect(() => {
     loginStore.getAdminData(id, navigate);
-    scheduleStore.getSchedules()
+    scheduleStore.getSchedules();
   }, [loginStore, scheduleStore, navigate, id]);
 
   return (
     <div>
       <div style={divTitle}>
-        <Typography variant="h4">Click Beard - ADM PAGE!</Typography>
-        <Button
-          size="small"
-          color="primary"
-          variant="contained"
-          onClick={registerBarber}
-        >
-          Cadastrar Barbeiro
-        </Button>
+        <Typography variant="h4">{`Click Beard`}</Typography>
         <Button
           size="small"
           color="primary"
@@ -52,14 +43,19 @@ function MainAdmView(props) {
           Sair
         </Button>
       </div>
+
+      <SchedulesFilter scheduleStore={scheduleStore} typeUser={1} />
+
+      <SchedulesTable scheduleStore={scheduleStore} typeUser={1} />
     </div>
   );
 }
 
 const divTitle = {
   marginBottom: 10,
+  marginRight: "60%",
   display: "flex",
-  justifyContent: "center",
+  justifyContent: "space-between",
 };
 
 export default withStore(observer(MainAdmView));
