@@ -17,7 +17,12 @@ function MainAdmView(props) {
   let navigate = useNavigate();
 
   const registerBarber = () => {
-    navigate("/barber/register");
+    navigate(`/${id}/barber/register`);
+  };
+
+  const logOut = () => {
+    loginStore.reset();
+    navigate(`/`);
   };
 
   useEffect(() => {
@@ -35,6 +40,14 @@ function MainAdmView(props) {
           onClick={registerBarber}
         >
           Cadastrar Barbeiro
+        </Button>
+        <Button
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick={logOut}
+        >
+          Sair
         </Button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
 import { withStore } from "../../stores/context";
@@ -20,19 +20,22 @@ RegisterBarberView.propTypes = {
 
 function RegisterBarberView(props) {
   const { barberStore } = props;
+  const { admin } = useParams();
 
   let navigate = useNavigate();
 
   const registerBarber = () => {
-    barberStore.registerBarber(navigate);
+    barberStore.registerBarber(admin, navigate);
   };
 
   const backToMain = async () => {
-    navigate("/adm");
+    barberStore.resetRegisterBarber();
+    navigate(`/adm/${admin}`);
   };
 
   useEffect(() => {
-    barberStore.getBarberSpecialties();
+    barberStore.getBarberSpecialtiesTypes();
+    barberStore.resetRegisterBarber()
   }, [barberStore]);
 
   return (
@@ -42,7 +45,7 @@ function RegisterBarberView(props) {
       </div>
       <div style={divCard}>
         <Card sx={{ width: 600 }}>
-          <CardHeader style={{ color: "#3a84ff" }} title="Cadastrar Barbeiro" />
+          <CardHeader style={{ color: "#3a84ff" }} title="Registrar Barbeiro" />
 
           <CardContent>
             <Grid container spacing={1}>
@@ -104,9 +107,9 @@ function RegisterBarberView(props) {
                     size="small"
                     variant="filled"
                     clickable={true}
-                    color={barberStore.selectedChip(row)}
+                    color={barberStore.selectedChipRegisterBarber(row)}
                     onClick={() =>
-                      barberStore.handleChangeChip(row)
+                      barberStore.handleChangeChipRegisterBarberSpecialties(row)
                     }
                   />
                 </Stack>
@@ -130,7 +133,7 @@ function RegisterBarberView(props) {
                   variant="contained"
                   onClick={registerBarber}
                 >
-                  Cadastrar
+                  Registrar
                 </Button>
               </Grid>
             </Grid>

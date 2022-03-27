@@ -12,9 +12,13 @@ class BarberStore {
 
   specialties = [];
 
+  barbers = [];
+
   fetching = false;
 
-  reset() {
+  modalSchedule = false;
+
+  resetRegisterBarber() {
     this.registerBarberData = {
       name: "",
       age: null,
@@ -28,17 +32,20 @@ class BarberStore {
     this.registerBarberData[name] = value;
   }
 
-  handleChangeChip(row) {
+  handleChangeChipRegisterBarberSpecialties(row) {
     const exists = this.registerBarberData.specialties.find(
       (specialty) => specialty.id === row.id
     );
 
     exists
-      ? this.registerBarberData.specialties.pop(row)
+      ? (this.registerBarberData.specialties =
+          this.registerBarberData.specialties.filter(
+            (specialty) => specialty.id !== row.id
+          ))
       : this.registerBarberData.specialties.push(row);
   }
 
-  selectedChip(row) {
+  selectedChipRegisterBarber(row) {
     const exists = this.registerBarberData.specialties.find(
       (specialty) => specialty.id === row.id
     );
@@ -59,22 +66,21 @@ class BarberStore {
     }
   }
 
-  async registerBarber(navigate) {
+  async registerBarber(admId, navigate) {
     try {
       this.fetching = true;
 
       const validateData = this.validateBarberData(this.registerBarberData);
 
       if (validateData) {
-        const response = await Barber.registerBarber(
-          this.registerBarberData
-        );
+        const response = await Barber.registerBarber(this.registerBarberData);
         if (response.error) {
           alert(`${response.error}`);
         }
         if (validator.isEmpty(response.data)) {
           alert("Barbeiro registrado com Sucesso!");
-          navigate("/adm");
+          this.resetRegisterBarber();
+          navigate(`/adm/${admId}`);
         }
       }
 
@@ -86,11 +92,11 @@ class BarberStore {
     }
   }
 
-  async getBarberSpecialties() {
+  async getBarberSpecialtiesTypes() {
     try {
       this.fetching = true;
 
-      const response = await Barber.getBarberSpecialties();
+      const response = await Barber.getBarberSpecialtiesTypes();
 
       this.specialties = response.data;
     } finally {
@@ -98,18 +104,32 @@ class BarberStore {
     }
   }
 
+  async getBarbers() {
+    try {
+      this.fetching = true;
+
+      const response = await Barber.getBarbers();
+
+      this.barbers = response.data;
+    } finally {
+      this.fetching = false;
+    }
+  }
+
   constructor() {
     makeObservable(this, {
-      registerBarberData: observable,
-      specialties: observable,
       fetching: observable,
-      selectedChip: observable,
-      reset: action.bound,
+      specialties: observable,
+      registerBarberData: observable,
+      selectedChipRegisterBarber: observable,
+      barbers: observable,
+      resetRegisterBarber: action.bound,
       registerBarber: action.bound,
-      getBarberSpecialties: action.bound,
+      getBarberSpecialtiesTypes: action.bound,
       validateBarberData: action.bound,
       handleChangeRegisterBarber: action.bound,
-      handleChangeChip: action.bound,
+      handleChangeChipRegisterBarberSpecialties: action.bound,
+      getBarbers: action.bound,
     });
   }
 }

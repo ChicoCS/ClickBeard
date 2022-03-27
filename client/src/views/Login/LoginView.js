@@ -73,17 +73,6 @@ function LoginView(props) {
                   }
                 />
               </Grid>
-              <Grid item xs={4}>
-                <Button
-                  style={divButton}
-                  size="small"
-                  color="primary"
-                  variant="contained"
-                  onClick={login}
-                >
-                  Entrar
-                </Button>
-              </Grid>
               <Grid item xs={8}>
                 <Button
                   style={divButton}
@@ -93,6 +82,17 @@ function LoginView(props) {
                   onClick={createAccount}
                 >
                   Criar Nova Conta
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  style={divButton}
+                  size="small"
+                  color="primary"
+                  variant="contained"
+                  onClick={login}
+                >
+                  Entrar
                 </Button>
               </Grid>
             </Grid>
