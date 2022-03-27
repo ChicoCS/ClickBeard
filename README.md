@@ -2,6 +2,8 @@
 
 Sistema de agendamento para barbearia - ClickBeard
 
+OBS: Você precisa ter o docker instalado. link: https://docs.docker.com/engine/install/
+
 # Configuração inicial Backend
 
 ```
