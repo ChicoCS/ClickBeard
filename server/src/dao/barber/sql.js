@@ -33,5 +33,23 @@ module.exports = {
   deleteBarber: `
     DELETE FROM barbers 
     WHERE uid = :uid`,
+
+  getBarbersBySpecialty:`
+    SELECT b.uid, b.name FROM clickbeard.barbers b 
+    LEFT JOIN barbers_specialties bs ON bs.barber_id = b.id 
+    WHERE bs.specialty_id = :specialty_id
+  `,
+
+  getUnavailableSchedulesBarberByBarberUID:`
+    SELECT s.date, s.time FROM clickbeard.schedules s
+    LEFT JOIN barbers b ON b.id = s.barber_id
+    WHERE b.uid = :uid
+    AND s.date = :date
+    AND s.canceled = 0
+  `,
+
+  getTimeList:`
+  SELECT tl.time FROM clickbeard.time_list tl
+  `
 };
 

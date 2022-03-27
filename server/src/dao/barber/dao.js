@@ -19,6 +19,37 @@ module.exports = {
     return response;
   },
 
+  async getBarbersBySpecialty(specialtyID) {
+    const response = await connection.query(sql.getBarbersBySpecialty, {
+      type: connection.QueryTypes.SELECT,
+      replacements: {
+        specialty_id: specialtyID,
+      },
+    });
+    return response;
+  },
+
+  async getUnavailableSchedulesBarberByBarberUID(uid, date) {
+    const response = await connection.query(
+      sql.getUnavailableSchedulesBarberByBarberUID,
+      {
+        type: connection.QueryTypes.SELECT,
+        replacements: {
+          uid: uid,
+          date: date,
+        },
+      }
+    );
+    return response;
+  },
+
+  async getTimeList() {
+    const response = await connection.query(sql.getTimeList, {
+      type: connection.QueryTypes.SELECT,
+    });
+    return response;
+  },
+
   async getBarberByName(name) {
     const response = await connection.query(sql.getBarberByName, {
       type: connection.QueryTypes.SELECT,

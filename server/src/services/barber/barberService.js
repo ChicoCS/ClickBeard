@@ -10,14 +10,71 @@ module.exports = {
     return specialties;
   },
 
+  async getBarbers() {
+    //barbers
+
+    //pegar os barbeiros
+
+    //pegar as especialidades
+
+    //pegar os horários ocupados
+    const specialties = await barberDAO.getBarbers();
+    if (!specialties) {
+      throw new Error("Falha ao obter tipos de especialidades.");
+    }
+
+    return specialties;
+  },
+
+  async getBarbersBySpecialty(specialtyID) {
+    const barbers = await barberDAO.getBarbersBySpecialty(specialtyID);
+    if (!barbers) {
+      throw new Error("Falha ao obter barbeiros.");
+    }
+
+    return barbers;
+  },
+
+  async getSchedulesBarberByBarberUID(uid, date) {
+    const availableSchedules = [];
+    const unavailableSchedules =
+      await barberDAO.getUnavailableSchedulesBarberByBarberUID(uid, date);
+    if (!unavailableSchedules) {
+      throw new Error("Falha ao obter horários.");
+    }
+
+    const timeList = await barberDAO.getTimeList();
+    if (!timeList) {
+      throw new Error("Falha ao obter lista de horários.");
+    }
+
+    timeList.forEach((time) => {
+      let resp = unavailableSchedules.find(
+        (unavailableTime) => unavailableTime.time === time.time
+      );
+
+      if (!resp) {
+        if (
+          !availableSchedules.some(
+            (availableSchedule) => availableSchedule === time.time
+          )
+        ) {
+          availableSchedules.push(time.time);
+        }
+      }
+    });
+
+    return availableSchedules;
+  },
+
   async getBarberByName(name) {
-    let result = {}
+    let result = {};
     const barber = await barberDAO.getBarberByName(name);
     if (!barber) {
       throw new Error("Falha ao obter barbeiro.");
     }
 
-    const specialties = await barberDAO.getBarberSpecialtiesById(barber.id)
+    const specialties = await barberDAO.getBarberSpecialtiesById(barber.id);
     if (!specialties) {
       throw new Error("Falha ao obter especialidades do barbeiro.");
     }
@@ -28,7 +85,7 @@ module.exports = {
       age: barber.age,
       date_hiring: barber.date_hiring,
       specialties: specialties,
-    }
+    };
 
     return result;
   },
@@ -43,7 +100,10 @@ module.exports = {
       const barberId = await barberDAO.registerBarber(data);
       if (data.specialties.length > 0) {
         data.specialties.map(async (specialty) => {
-          const response = await barberDAO.addBarberSpecialty(barberId, specialty.id);
+          const response = await barberDAO.addBarberSpecialty(
+            barberId,
+            specialty.id
+          );
           if (!response) {
             throw new Error("Falha ao adicionar especialidades.");
           }

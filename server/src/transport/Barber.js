@@ -19,4 +19,31 @@ module.exports = {
       next(e);
     }
   },
+
+  async getBarbers(req, res, next) {
+    try {
+      const response = await barberService.getBarbers();
+      res.status(200).json(response);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  async getBarbersBySpecialty(req, res, next) {
+    try {
+      const response = await barberService.getBarbersBySpecialty(req.params.id);
+      res.status(200).json(response);
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  async getSchedulesBarberByBarberUID(req, res, next) {
+    try {
+      const response = await barberService.getSchedulesBarberByBarberUID(req.params.id, req.query.date);
+      res.status(200).json(response);
+    } catch (e) {
+      next(e);
+    }
+  },
 };
