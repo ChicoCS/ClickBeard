@@ -16,6 +16,8 @@ routes.get("/barbers/specialties", Barber.getBarberSpecialtiesTypes);
 routes.get("/barbers/:id/specialties", Barber.getBarbersBySpecialty);
 routes.get("/barbers/:id/schedules", Barber.getSchedulesBarberByBarberUID);
 
+routes.get("/schedules", Schedule.getSchedules);
 routes.post("/schedules/:client_id", Schedule.registerSchedule);
+routes.get("/schedules/:client_id", Schedule.getSchedulesByClient);
 
 module.exports = routes;

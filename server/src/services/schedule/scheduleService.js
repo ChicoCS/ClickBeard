@@ -9,7 +9,7 @@ module.exports = {
       throw new Error("Falha ao registrar agendamento.");
     }
 
-    const user = await accountDAO.getAccountByUID(clientID)
+    const user = await accountDAO.getAccountByUID(clientID);
     if (!user) {
       throw new Error("Falha ao registrar agendamento.");
     }
@@ -18,12 +18,30 @@ module.exports = {
       barber: barber.id,
       date: data.date,
       time: data.time,
-      user: user.id
-    }
+      user: user.id,
+    };
 
     const schedule = await scheduleDAO.registerSchedule(scheduleData);
     if (!schedule) {
       throw new Error("Falha ao registrar agendamento.");
     }
-  }
+  },
+
+  async getSchedulesByClient(clientUID) {
+    const schedules = await scheduleDAO.getSchedulesByClientUID(clientUID);
+    if (!schedules) {
+      throw new Error("Falha ao obter lista de agendamentos.");
+    }
+
+    return schedules;
+  },
+
+  async getSchedules() {
+    const schedules = await scheduleDAO.getSchedules();
+    if (!schedules) {
+      throw new Error("Falha ao obter lista de agendamentos.");
+    }
+
+    return schedules;
+  },
 };

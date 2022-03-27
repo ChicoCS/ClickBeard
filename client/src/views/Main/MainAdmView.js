@@ -9,10 +9,11 @@ import { Button } from "@mui/material";
 
 MainAdmView.propTypes = {
   loginStore: PropTypes.object.isRequired,
+  scheduleStore: PropTypes.object.isRequired,
 };
 
 function MainAdmView(props) {
-  const { loginStore } = props;
+  const { loginStore, scheduleStore } = props;
   const { id } = useParams();
   let navigate = useNavigate();
 
@@ -27,7 +28,8 @@ function MainAdmView(props) {
 
   useEffect(() => {
     loginStore.getAdminData(id, navigate);
-  }, [loginStore, navigate, id]);
+    scheduleStore.getSchedules()
+  }, [loginStore, scheduleStore, navigate, id]);
 
   return (
     <div>

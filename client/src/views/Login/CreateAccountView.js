@@ -122,18 +122,7 @@ function CreateAccountView(props) {
                 />
               </Grid>
 
-              <Grid item xs={8}>
-                <Button
-                  style={divButton}
-                  size="small"
-                  color="primary"
-                  variant="contained"
-                  onClick={createAccount}
-                >
-                  Criar Conta
-                </Button>
-              </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={6}>
                 <Button
                   style={divButton}
                   size="small"
@@ -142,6 +131,17 @@ function CreateAccountView(props) {
                   onClick={backToLogin}
                 >
                   Voltar
+                </Button>
+              </Grid>
+              <Grid item xs={6}>
+                <Button
+                  style={divButton}
+                  size="small"
+                  color="primary"
+                  variant="contained"
+                  onClick={createAccount}
+                >
+                  Criar Conta
                 </Button>
               </Grid>
             </Grid>

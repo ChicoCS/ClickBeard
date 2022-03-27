@@ -8,12 +8,13 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
 MainClientView.propTypes = {
-  loginStore: PropTypes.object,
-  barberStore: PropTypes.object,
+  loginStore: PropTypes.object.isRequired,
+  barberStore: PropTypes.object.isRequired,
+  scheduleStore: PropTypes.object.isRequired,
 };
 
 function MainClientView(props) {
-  const { loginStore, barberStore } = props;
+  const { loginStore, barberStore, scheduleStore } = props;
   const { id } = useParams();
   
   const logOut = () => {
@@ -29,8 +30,8 @@ function MainClientView(props) {
 
   useEffect(() => {
     loginStore.getClientData(id, navigate);
-    barberStore.getBarberSpecialtiesTypes();
-  }, [loginStore, barberStore, navigate, id]);
+    scheduleStore.getSchedulesByClient(id)
+  }, [loginStore, barberStore, scheduleStore, navigate, id]);
 
   return (
     <div>

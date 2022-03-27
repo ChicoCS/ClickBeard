@@ -4,11 +4,10 @@ import Barber from "../../../services/Barber";
 import Schedule from "../../../services/Schedule";
 
 class ScheduleStore {
-
   fetching = false;
 
   specialties = [];
-  
+
   barbers = [];
 
   schedule = {
@@ -21,6 +20,10 @@ class ScheduleStore {
   availableBarbers = [];
 
   availableSchedules = [];
+
+  clientSchedules = [];
+
+  schedules = [];
 
   resetRegisterSchedule() {
     this.schedule = {
@@ -89,14 +92,14 @@ class ScheduleStore {
 
       if (!validator.isDate(this.schedule.date)) {
         alert("você precisa informar uma data.");
-        this.schedule.barber = null
+        this.schedule.barber = null;
       }
     } finally {
       this.fetching = true;
     }
   }
 
-  validateRegisterScheduleData(data){
+  validateRegisterScheduleData(data) {
     if (
       validator.isInt(toString(data.specialty)) ||
       validator.isEmpty(data.barber) ||
@@ -113,10 +116,13 @@ class ScheduleStore {
     try {
       this.fetching = true;
 
-      const validation = this.validateRegisterScheduleData(this.schedule)
+      const validation = this.validateRegisterScheduleData(this.schedule);
 
-      if(validation){
-        const response = await Schedule.registerSchedule(clientID, this.schedule)
+      if (validation) {
+        const response = await Schedule.registerSchedule(
+          clientID,
+          this.schedule
+        );
         if (response.error) {
           alert(`${response.error}`);
         }
@@ -127,10 +133,33 @@ class ScheduleStore {
         }
       }
 
-      if(!validation){
-        alert("Preencha os campos corretamente.")
+      if (!validation) {
+        alert("Preencha os campos corretamente.");
       }
+    } finally {
+      this.fetching = false;
+    }
+  }
 
+  async getSchedulesByClient(clientID) {
+    try {
+      this.fetching = true;
+
+      const response = await Schedule.getSchedulesByClient(clientID);
+
+      this.clientSchedules = response.data;
+    } finally {
+      this.fetching = false;
+    }
+  }
+
+  async getSchedules() {
+    try {
+      this.fetching = true;
+
+      const response = await Schedule.getSchedules();
+
+      this.schedules = response.data;
     } finally {
       this.fetching = false;
     }
@@ -143,6 +172,8 @@ class ScheduleStore {
       barbers: observable,
       availableBarbers: observable,
       availableSchedules: observable,
+      schedules: observable,
+      clientSchedules: observable,
       resetRegisterSchedule: action.bound,
       handleChangeRegisterSchedule: action.bound,
       handleChangeChipRegisterSchedule: action.bound,
@@ -150,6 +181,7 @@ class ScheduleStore {
       filterAvailableSchedulesBarber: action.bound,
       registerSchedule: action.bound,
       validateRegisterScheduleData: action.bound,
+      getSchedulesByClient: action.bound,
     });
   }
 }
