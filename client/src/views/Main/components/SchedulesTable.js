@@ -70,8 +70,13 @@ function SchedulesTable(props) {
               </TableCell>
               {typeUser === 2 && (
                 <TableCell>
-                  <Button size="small" color="error" variant="contained">
-                    cancelar
+                  <Button
+                    size="small"
+                    color="error"
+                    variant="contained"
+                    onClick={() => scheduleStore.cancelSchedule(row.schedule_id)}
+                  >
+                    Cancelar
                   </Button>
                 </TableCell>
               )}

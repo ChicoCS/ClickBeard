@@ -39,6 +39,19 @@ const Schedule = {
       });
     return response;
   },
+
+  cancelSchedule: async (schedule_id) => {
+    let response = {};
+    await api
+      .put(`/schedules/cancel/${schedule_id}`)
+      .then((res) => {
+        response.data = res.data;
+      })
+      .catch((res) => {
+        response.error = res.response.data;
+      });
+    return response;
+  },
 };
 
 export default Schedule;

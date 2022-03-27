@@ -28,4 +28,13 @@ module.exports = {
       next(e);
     }
   },
+
+  async cancelSchedule(req, res, next) {
+    try {
+      const response = await scheduleService.cancelSchedule(req.params.schedule_id);
+      res.status(204).json(response);
+    } catch (e) {
+      next(e);
+    }
+  },
 };

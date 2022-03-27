@@ -32,4 +32,26 @@ module.exports = {
     });
     return response;
   },
+
+  async getScheduleByUID(scheduleUID) {
+    const response = await connection.query(sql.getScheduleByUID, {
+      type: connection.QueryTypes.SELECT,
+      plain: true,
+      replacements: {
+        uid: scheduleUID,
+      },
+    });
+    return response;
+  },
+
+  async cancelSchedule(scheduleUID) {
+    const response = await connection.query(sql.cancelSchedule, {
+      type: connection.QueryTypes.UPDATE,
+      plain: true,
+      replacements: {
+        uid: scheduleUID,
+      },
+    });
+    return response;
+  },
 };

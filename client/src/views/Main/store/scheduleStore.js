@@ -3,8 +3,6 @@ import validator from "validator";
 import Barber from "../../../services/Barber";
 import Schedule from "../../../services/Schedule";
 
-import format from "date-fns/format";
-
 class ScheduleStore {
   fetching = false;
 
@@ -42,7 +40,7 @@ class ScheduleStore {
     this.availableSchedules = [];
   }
 
-  resetFilter(){
+  resetFilter() {
     this.filter = {
       date: "",
     };
@@ -55,7 +53,7 @@ class ScheduleStore {
   }
 
   handleChangeFilterSchedules(target) {
-    this.resetFilter()
+    this.resetFilter();
     const { name, value } = target;
     this.filter[name] = value;
   }
@@ -99,11 +97,6 @@ class ScheduleStore {
   async filterAvailableSchedulesBarber() {
     try {
       this.fetching = true;
-
-      // const minTimeToSchedule = format(new Date(), "HH:mm")
-      // const minDateToSchedule = format(new Date(), "yyyy-MM-dd")
-
-      // console.warn("minTimeToSchedule", minTimeToSchedule)
 
       if (validator.isDate(this.schedule.date)) {
         const response = await Barber.getSchedulesBarberByBarber(
@@ -169,7 +162,10 @@ class ScheduleStore {
     try {
       this.fetching = true;
 
-      const response = await Schedule.getSchedulesByClient(clientID, this.filter.date);
+      const response = await Schedule.getSchedulesByClient(
+        clientID,
+        this.filter.date
+      );
 
       this.clientSchedules = response.data;
       this.resetFilter();
@@ -186,6 +182,23 @@ class ScheduleStore {
 
       this.schedules = response.data;
       this.resetFilter();
+    } finally {
+      this.fetching = false;
+    }
+  }
+
+  async cancelSchedule(schedule_id) {
+    try {
+      this.fetching = true;
+
+      const response = await Schedule.cancelSchedule(schedule_id);
+      if (response.error) {
+        alert(`${response.error}`);
+      }
+      if (validator.isEmpty(response.data)) {
+        alert("Agendamento cancelado com Sucesso!");
+      }
+
     } finally {
       this.fetching = false;
     }
@@ -211,6 +224,7 @@ class ScheduleStore {
       registerSchedule: action.bound,
       validateRegisterScheduleData: action.bound,
       getSchedulesByClient: action.bound,
+      cancelSchedule: action.bound,
     });
   }
 }

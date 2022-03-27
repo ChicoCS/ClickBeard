@@ -17,6 +17,7 @@ routes.get("/barbers/:id/specialties", Barber.getBarbersBySpecialty);
 routes.get("/barbers/:id/schedules", Barber.getSchedulesBarberByBarberUID);
 
 routes.post("/schedules/:client_id", Schedule.registerSchedule);
+routes.put("/schedules/cancel/:schedule_id", Schedule.cancelSchedule);
 routes.get("/schedules", Schedule.getSchedules);
 routes.get("/schedules/:client_id", Schedule.getSchedulesByClient);
 
