@@ -19,8 +19,6 @@ class LoginStore {
 
   loggedUser = null;
 
-  fetching = false;
-
   reset() {
     this.user = {
       login: "",
@@ -70,8 +68,6 @@ class LoginStore {
 
   async makeLogin(navigate) {
     try {
-      this.fetching = true;
-
       const validateUser = this.validateLogin(this.user);
       if (validateUser) {
         const response = await Account.makeLogin(this.user);
@@ -90,14 +86,11 @@ class LoginStore {
         alert("Verifique se os campos foram preenchidos corretamente.");
       }
     } finally {
-      this.fetching = false;
     }
   }
 
   async createAccount(navigate) {
     try {
-      this.fetching = true;
-
       const validateData = this.validateCreateAccountData(
         this.createAccountData
       );
@@ -120,14 +113,11 @@ class LoginStore {
         alert("Verifique se os campos foram preenchidos corretamente.");
       }
     } finally {
-      this.fetching = false;
     }
   }
 
   async getClientData(id, navigation) {
     try {
-      this.fetching = true;
-
       const response = await Account.getUserDataByID(id, 2);
       if (response.error) {
         alert(`${response.error}`);
@@ -136,14 +126,11 @@ class LoginStore {
 
       this.loggedUser = response.data;
     } finally {
-      this.fetching = false;
     }
   }
 
   async getAdminData(id, navigation) {
     try {
-      this.fetching = true;
-
       const response = await Account.getUserDataByID(id, 1);
       if (response.error) {
         alert(`${response.error}`);
@@ -152,14 +139,12 @@ class LoginStore {
 
       this.loggedUser = response.data;
     } finally {
-      this.fetching = false;
     }
   }
 
   constructor() {
     makeObservable(this, {
       user: observable,
-      fetching: observable,
       reset: action.bound,
       makeLogin: action.bound,
       createAccount: action.bound,

@@ -14,8 +14,6 @@ class BarberStore {
 
   barbers = [];
 
-  fetching = false;
-
   modalSchedule = false;
 
   resetRegisterBarber() {
@@ -68,8 +66,6 @@ class BarberStore {
 
   async registerBarber(admId, navigate) {
     try {
-      this.fetching = true;
-
       const validateData = this.validateBarberData(this.registerBarberData);
 
       if (validateData) {
@@ -88,25 +84,20 @@ class BarberStore {
         alert("Verifique se os campos foram preenchidos corretamente.");
       }
     } finally {
-      this.fetching = false;
     }
   }
 
   async getBarberSpecialtiesTypes() {
     try {
-      this.fetching = true;
-
       const response = await Barber.getBarberSpecialtiesTypes();
 
       this.specialties = response.data;
     } finally {
-      this.fetching = false;
     }
   }
 
   constructor() {
     makeObservable(this, {
-      fetching: observable,
       specialties: observable,
       registerBarberData: observable,
       selectedChipRegisterBarber: observable,

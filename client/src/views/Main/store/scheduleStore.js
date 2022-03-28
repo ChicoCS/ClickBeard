@@ -4,8 +4,6 @@ import Barber from "../../../services/Barber";
 import Schedule from "../../../services/Schedule";
 
 class ScheduleStore {
-  fetching = false;
-
   specialties = [];
 
   barbers = [];
@@ -82,22 +80,17 @@ class ScheduleStore {
 
   async filterBarbersBySpecialty() {
     try {
-      this.fetching = true;
-
       const response = await Barber.getBarbersBySpecialty(
         this.schedule.specialty
       );
 
       this.availableBarbers = response.data;
     } finally {
-      this.fetching = true;
     }
   }
 
   async filterAvailableSchedulesBarber() {
     try {
-      this.fetching = true;
-
       if (validator.isDate(this.schedule.date)) {
         const response = await Barber.getSchedulesBarberByBarber(
           this.schedule.barber,
@@ -112,7 +105,6 @@ class ScheduleStore {
         this.schedule.barber = null;
       }
     } finally {
-      this.fetching = true;
     }
   }
 
@@ -131,8 +123,6 @@ class ScheduleStore {
 
   async registerSchedule(navigation, clientID) {
     try {
-      this.fetching = true;
-
       const validation = this.validateRegisterScheduleData(this.schedule);
 
       if (validation) {
@@ -154,14 +144,11 @@ class ScheduleStore {
         alert("Preencha os campos corretamente.");
       }
     } finally {
-      this.fetching = false;
     }
   }
 
   async getSchedulesByClient(clientID) {
     try {
-      this.fetching = true;
-
       const response = await Schedule.getSchedulesByClient(
         clientID,
         this.filter.date
@@ -170,45 +157,36 @@ class ScheduleStore {
       this.clientSchedules = response.data;
       this.resetFilter();
     } finally {
-      this.fetching = false;
     }
   }
 
   async getSchedules() {
     try {
-      this.fetching = true;
-
       const response = await Schedule.getSchedules(this.filter.date);
 
       this.schedules = response.data;
       this.resetFilter();
     } finally {
-      this.fetching = false;
     }
   }
 
   async cancelSchedule(schedule_id, client_id) {
     try {
-      this.fetching = true;
-
       const response = await Schedule.cancelSchedule(schedule_id);
       if (response.error) {
         alert(`${response.error}`);
       }
       if (validator.isEmpty(response.data)) {
         alert("Agendamento cancelado com Sucesso!");
-        this.getSchedulesByClient(client_id)
+        this.getSchedulesByClient(client_id);
       }
-
     } finally {
-      this.fetching = false;
     }
   }
 
   constructor() {
     makeObservable(this, {
       specialties: observable,
-      fetching: observable,
       barbers: observable,
       availableBarbers: observable,
       availableSchedules: observable,
