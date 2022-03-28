@@ -27,7 +27,7 @@ function RegisterScheduleView(props) {
 
   let navigate = useNavigate();
 
-  const minDateToSchedule = format(new Date(), "yyyy-MM-dd")
+  const minDateToSchedule = format(new Date(), "yyyy-MM-dd");
 
   const registerSchedule = () => {
     scheduleStore.registerSchedule(navigate, client);
@@ -41,7 +41,7 @@ function RegisterScheduleView(props) {
   useEffect(() => {
     barberStore.getBarberSpecialtiesTypes();
     scheduleStore.filterBarbersBySpecialty();
-  }, [barberStore, scheduleStore]);
+  }, [barberStore, scheduleStore, scheduleStore.schedule]);
 
   return (
     <div>
@@ -175,7 +175,9 @@ function RegisterScheduleView(props) {
                         variant="filled"
                         clickable={true}
                         color={
-                          scheduleStore.schedule.time === row ? "info" : "default"
+                          scheduleStore.schedule.time === row
+                            ? "info"
+                            : "default"
                         }
                         onClick={() =>
                           scheduleStore.handleChangeChipRegisterSchedule(

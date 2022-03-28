@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 
 import Table from "@mui/material/Table";
@@ -17,8 +18,12 @@ import pt from "date-fns/locale/pt";
 function SchedulesTable(props) {
   const { scheduleStore, typeUser } = props;
 
+  const { id } = useParams();
+
   const schedules =
     typeUser === 1 ? scheduleStore.schedules : scheduleStore.clientSchedules;
+
+  useEffect(() => {}, [scheduleStore]);
 
   return (
     <Table>
@@ -74,7 +79,9 @@ function SchedulesTable(props) {
                     size="small"
                     color="error"
                     variant="contained"
-                    onClick={() => scheduleStore.cancelSchedule(row.schedule_id)}
+                    onClick={() =>
+                      scheduleStore.cancelSchedule(row.schedule_id, id)
+                    }
                   >
                     Cancelar
                   </Button>

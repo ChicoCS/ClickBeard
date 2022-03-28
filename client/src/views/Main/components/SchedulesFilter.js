@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { observer } from "mobx-react";
 
@@ -33,11 +33,14 @@ function SchedulesFilter(props) {
   const clearFilter = async () => {
     if (typeUser === 1) {
       await scheduleStore.getSchedules();
+      this.resetFilter();
     }
     if (typeUser === 2) {
       await scheduleStore.getSchedulesByClient(id);
     }
   };
+
+  useEffect(() => {}, [scheduleStore]);
 
   return (
     <Grid container spacing={1}>

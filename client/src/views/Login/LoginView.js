@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { observer } from "mobx-react";
 import PropTypes from "prop-types";
@@ -27,8 +27,6 @@ function LoginView(props) {
   const createAccount = () => {
     navigate("/createAccount");
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div>

@@ -10,6 +10,7 @@ OBS: Você precisa ter o docker instalado. link: https://docs.docker.com/engine/
 Acesse a pasta /server e siga os comandos abaixo no terminal:
 
 docker-compose up
+
 npm install
 npx sequelize db:migrate
 npm start

@@ -187,7 +187,7 @@ class ScheduleStore {
     }
   }
 
-  async cancelSchedule(schedule_id) {
+  async cancelSchedule(schedule_id, client_id) {
     try {
       this.fetching = true;
 
@@ -197,6 +197,7 @@ class ScheduleStore {
       }
       if (validator.isEmpty(response.data)) {
         alert("Agendamento cancelado com Sucesso!");
+        this.getSchedulesByClient(client_id)
       }
 
     } finally {
