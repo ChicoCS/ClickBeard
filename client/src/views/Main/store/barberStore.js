@@ -104,18 +104,6 @@ class BarberStore {
     }
   }
 
-  async getBarbers() {
-    try {
-      this.fetching = true;
-
-      const response = await Barber.getBarbers();
-
-      this.barbers = response.data;
-    } finally {
-      this.fetching = false;
-    }
-  }
-
   constructor() {
     makeObservable(this, {
       fetching: observable,
@@ -129,7 +117,6 @@ class BarberStore {
       validateBarberData: action.bound,
       handleChangeRegisterBarber: action.bound,
       handleChangeChipRegisterBarberSpecialties: action.bound,
-      getBarbers: action.bound,
     });
   }
 }

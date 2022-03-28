@@ -27,19 +27,6 @@ const Barber = {
     return response;
   },
 
-  getBarbers: async () => {
-    let response = {};
-    await api
-      .get(`/barbers`)
-      .then((res) => {
-        response.data = res.data;
-      })
-      .catch((res) => {
-        response.error = res.response.data;
-      });
-    return response;
-  },
-
   getBarbersBySpecialty: async (specialtyId) => {
     let response = {};
     await api

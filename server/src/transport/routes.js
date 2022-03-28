@@ -11,7 +11,6 @@ routes.get("/accounts/client/:id", Account.getUserDataByUID);
 
 
 routes.post("/barbers", Barber.registerBarber);
-routes.get("/barbers", Barber.getBarbers);
 routes.get("/barbers/specialties", Barber.getBarberSpecialtiesTypes);
 routes.get("/barbers/:id/specialties", Barber.getBarbersBySpecialty);
 routes.get("/barbers/:id/schedules", Barber.getSchedulesBarberByBarberUID);

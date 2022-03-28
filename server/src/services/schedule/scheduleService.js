@@ -25,6 +25,12 @@ module.exports = {
       user: user.id,
     };
 
+    const checkClientScheduleIsAvailable = await scheduleDAO.checkClientScheduleIsAvailable(scheduleData);
+
+    if (checkClientScheduleIsAvailable) {
+      throw new Error("Você ja tem um atendimento marcado nesse horário.");
+    }
+
     const schedule = await scheduleDAO.registerSchedule(scheduleData);
     if (!schedule) {
       throw new Error("Falha ao registrar agendamento.");

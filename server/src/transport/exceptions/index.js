@@ -5,7 +5,9 @@ module.exports = {
     "Falha ao cadastrar conta. Essa conta ja existe.",
     "Falha ao cadastrar conta. Login ja existe.",
     "Falha ao cadastrar conta. Email ja existe.",
-    "Barbeiro ja cadastrado.",
+    "Falha ao cadastrar barbeiro. Barbeiro ja cadastrado.",
+    "Não pode cancelar o agendamento porque falta menos de 2 horas antes do horário marcado.",
+    "Você ja tem um atendimento marcado nesse horário.",
   ],
   status409Exceptions: [
     "Houve um erro ao cadastrar conta.",
@@ -19,5 +21,8 @@ module.exports = {
     "Falha ao obter horários.",
     "Falha ao obter lista de horários.",
     "Falha ao registrar agendamento.",
+    "Falha ao cancelar agendamento.",
+    "Falha ao obter lista de agendamentos.",
+    "FaFalha ao cadastrar barbeiro. lha ao registrar agendamento.",
   ],
 };

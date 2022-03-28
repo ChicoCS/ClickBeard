@@ -10,22 +10,6 @@ module.exports = {
     return specialties;
   },
 
-  async getBarbers() {
-    //barbers
-
-    //pegar os barbeiros
-
-    //pegar as especialidades
-
-    //pegar os horários ocupados
-    const specialties = await barberDAO.getBarbers();
-    if (!specialties) {
-      throw new Error("Falha ao obter tipos de especialidades.");
-    }
-
-    return specialties;
-  },
-
   async getBarbersBySpecialty(specialtyID) {
     const barbers = await barberDAO.getBarbersBySpecialty(specialtyID);
     if (!barbers) {
@@ -93,7 +77,7 @@ module.exports = {
   async registerBarber(data) {
     const checkBarber = await barberDAO.getBarberByName(data.name);
     if (checkBarber) {
-      throw new Error("Barbeiro ja cadastrado.");
+      throw new Error("Falha ao cadastrar barbeiro. Barbeiro ja cadastrado.");
     }
 
     if (!checkBarber) {

@@ -54,4 +54,20 @@ module.exports = {
     });
     return response;
   },
+
+  async checkClientScheduleIsAvailable(scheduleData) {
+    const response = await connection.query(
+      sql.checkClientScheduleIsAvailable,
+      {
+        type: connection.QueryTypes.SELECT,
+        plain: true,
+        replacements: {
+          date: scheduleData.date,
+          time: scheduleData.time,
+          user_id: scheduleData.user,
+        },
+      }
+    );
+    return response;
+  },
 };

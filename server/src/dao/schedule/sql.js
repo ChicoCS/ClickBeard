@@ -30,4 +30,10 @@ module.exports = {
     UPDATE schedules s
     SET canceled = 1
     WHERE s.uid = :uid`,
+
+  checkClientScheduleIsAvailable: `
+    SELECT true as validator FROM schedules s 
+    WHERE s.user_id  = :user_id
+    AND s.date = :date
+    AND s.time = :time`,
 };

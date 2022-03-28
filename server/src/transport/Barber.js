@@ -20,15 +20,6 @@ module.exports = {
     }
   },
 
-  async getBarbers(req, res, next) {
-    try {
-      const response = await barberService.getBarbers();
-      res.status(200).json(response);
-    } catch (e) {
-      next(e);
-    }
-  },
-
   async getBarbersBySpecialty(req, res, next) {
     try {
       const response = await barberService.getBarbersBySpecialty(req.params.id);
