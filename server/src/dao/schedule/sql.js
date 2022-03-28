@@ -35,5 +35,6 @@ module.exports = {
     SELECT true as validator FROM schedules s 
     WHERE s.user_id  = :user_id
     AND s.date = :date
-    AND s.time = :time`,
+    AND s.time = :time
+    AND canceled = 0`,
 };
